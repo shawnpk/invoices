@@ -1,7 +1,7 @@
 require_relative 'boot'
 
 # require 'rails/all'
-
+require 'csv'
 %w(
   active_record/railtie
   action_controller/railtie
