@@ -20,35 +20,24 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
 
-    respond_to do |format|
-      if @invoice.save!
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
-        format.json { render :show, status: :created, location: @invoice }
-      else
-        format.html { render :new, notice: @invoice.errors }
-        format.json { render json: @invoice.errors, status: :unprocessable_entity }
-      end
+    if @invoice.save!
+      redirect_to @invoice, notice: 'Invoice was successfully created.'
+    else
+      render :new, notice: @invoice.errors
     end
   end
 
   def update
-    respond_to do |format|
-      if @invoice.update(invoice_params)
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
-        format.json { render :show, status: :ok, location: @invoice }
-      else
-        format.html { render :edit }
-        format.json { render json: @invoice.errors, status: :unprocessable_entity }
-      end
+    if @invoice.update(invoice_params)
+      redirect_to @invoice, notice: 'Invoice was successfully updated.'
+    else
+      render :edit
     end
   end
 
   def destroy
     @invoice.destroy
-    respond_to do |format|
-      format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to invoices_url, notice: 'Invoice was successfully destroyed.'
   end
 
   private

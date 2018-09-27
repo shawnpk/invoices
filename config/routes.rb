@@ -15,8 +15,8 @@ Rails.application.routes.draw do
   end
 
   resources :invoices do
-    resources :purchases, except: [:index]
+    resources :purchases, except: [:index, :show]
   end
-  
+
   resources :employees
 end

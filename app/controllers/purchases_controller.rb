@@ -1,45 +1,30 @@
 class PurchasesController < ApplicationController
-  before_action :set_invoice,  only: [:new, :create, :destroy]
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @purchases = Purchase.all
-  end
-
-  def show
-  end
+  before_action :set_invoice
+  before_action :set_purchase, except: [:new, :create]
 
   def new
     @purchase = Purchase.new
   end
 
   def edit
+    @purchase = Purchase.find(params[:id])
   end
 
   def create
-    @purchase = Purchase.new(purchase_params)
-    @purchase.invoice = @invoice
+    @purchase = @invoice.purchases.new(purchase_params)
 
-    respond_to do |format|
-      if @purchase.save
-        format.html { redirect_to @invoice, notice: 'Purchase was successfully created.' }
-        format.json { render :show, status: :created, location: @invoice }
-      else
-        format.html { render :new }
-        format.json { render json: @invoice.errors, status: :unprocessable_entity }
-      end
+    if @purchase.save
+      redirect_to @invoice, notice: 'Purchase was successfully created.'
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @purchase.update(purchase_params)
-        format.html { redirect_to @purchase, notice: 'Purchase was successfully updated.' }
-        format.json { render :show, status: :ok, location: @purchase }
-      else
-        format.html { render :edit }
-        format.json { render json: @purchase.errors, status: :unprocessable_entity }
-      end
+    if @purchase.update(purchase_params)
+      redirect_to @invoice, notice: 'Purchase was successfully updated.'
+    else
+      render :edit
     end
   end
 

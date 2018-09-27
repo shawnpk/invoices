@@ -16,13 +16,12 @@
       <tbody>
         <% @companies.each do |company| %>
           <tr>
-            <td><%= company.name %></td>
+            <td><%= link_to company.name, company %></td>
             <td><%= company.manager %></td>
             <td><%= company.status %></td>
             <td><%= company.terms %></td>
-            <td><%= link_to 'Show', company, class: 'btn btn-xs btn-default' %></td>
             <td><%= link_to 'Edit', edit_company_path(company), class: 'btn btn-xs btn-success' %></td>
-            <td><%= link_to 'Destroy', company, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Destroy', company, method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: "Are you sure you want to delete '#{company.name}'?" } %></td>
           </tr>
         <% end %>
       </tbody>
