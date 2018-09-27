@@ -32,20 +32,24 @@
             <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th>Total</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
+          <% running_total = 0 %>
           <% @purchases.each do |purchase| %>
             <tr>
               <td><h4><%= purchase.name %></h4></td>
               <td><h4><%= purchase.category %></h4></td>
               <td><h4><%= purchase.quantity %></h4></td>
               <td><h4><%= number_to_currency(purchase.price) %></h4></td>
+              <td><h4><%= number_to_currency(purchase.quantity * purchase.price) %></h4></td>
               <td><h4><%= link_to 'Delete', [@invoice, purchase],
                 class: 'btn btn-xs btn-danger',
                 method: :delete,
                 data: { confirm: "Are you sure you want to delete '#{purchase.name}' from this invoice?" } %></h4></td>
+              <% running_total += (purchase.quantity * purchase.price) %>
             </tr>
           <% end %>
         </tbody>
@@ -54,7 +58,15 @@
   </div>
 <% end %>
 
-<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
-<%= link_to 'Back', invoices_path %>
+<h2 class="pull-right">
+  Invoice Total: <%= number_to_currency(running_total) %>
+</h2>
+
+<br><br><br><br>
 
 <%= link_to 'Add New Item', new_invoice_purchase_path(@invoice), class: 'pull-right' %>
+
+<br>
+
+<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
+<%= link_to 'Back', invoices_path %>
