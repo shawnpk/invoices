@@ -34,9 +34,9 @@
     </div>
 
     <div class="form-group">
-      <%= form.label :salesperson, class: 'control-label' %>
+      <%= form.label :employee_id, class: 'control-label' %>
       <div class="controls">
-        <%= form.text_field :salesperson, class: 'form-control' %>
+        <%= collection_select(:invoice, :employee_id, Employee.order(name: :asc), :id, :name, {}, { multiple: false }) %>
       </div>
     </div>
 
