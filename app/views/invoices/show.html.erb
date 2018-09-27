@@ -20,7 +20,7 @@
   </p>
 </div>
 
-<hr>
+<br>
 
 <% if @purchases.any? %>
   <div class="media">
@@ -49,3 +49,5 @@
 
 <%= link_to 'Edit', edit_invoice_path(@invoice) %> |
 <%= link_to 'Back', invoices_path %>
+
+<%= link_to 'Add New Item', new_invoice_purchase_path(@invoice), class: 'pull-right' %>
