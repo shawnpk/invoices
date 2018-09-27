@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
-  resources :purchases
-  resources :employees
   root 'welcome#index'
 
-  resources :companies do
-    collection { post :import }
-  end
   devise_for :users
 
   get 'welcome/index'
@@ -15,5 +10,13 @@ Rails.application.routes.draw do
   get 'welcome/pricing'
   get 'welcome/features'
 
-  resources :invoices
+  resources :companies do
+    collection { post :import }
+  end
+
+  resources :invoices do
+    resources :purchases, except: [:index]
+  end
+  
+  resources :employees
 end

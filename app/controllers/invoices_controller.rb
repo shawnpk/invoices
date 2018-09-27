@@ -7,6 +7,7 @@ class InvoicesController < ApplicationController
   end
 
   def show
+    @purchases = @invoice.purchases
   end
 
   def new
