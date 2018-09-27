@@ -1,4 +1,5 @@
 class PurchasesController < ApplicationController
+  before_action :set_invoice,  only: [:new, :create, :destroy]
   before_action :set_purchase, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -9,7 +10,6 @@ class PurchasesController < ApplicationController
   end
 
   def new
-    @invoice = Invoice.find(params[:invoice_id])
     @purchase = Purchase.new
   end
 
@@ -17,7 +17,6 @@ class PurchasesController < ApplicationController
   end
 
   def create
-    @invoice = Invoice.find(params[:invoice_id])
     @purchase = Purchase.new(purchase_params)
     @purchase.invoice = @invoice
 
@@ -45,14 +44,22 @@ class PurchasesController < ApplicationController
   end
 
   def destroy
-    @purchase.destroy
-    respond_to do |format|
-      format.html { redirect_to purchases_url, notice: 'Purchase was successfully destroyed.' }
-      format.json { head :no_content }
+    @purchase = Purchase.find(params[:id])
+
+    if @purchase.destroy
+      flash[:notice] = "'#{@purchase.name}' was deleted successfully"
+      redirect_to @invoice
+    else
+      flash[:error] = 'There was an error deleting the purchase'
+      render :show
     end
   end
 
   private
+    def set_invoice
+      @invoice = Invoice.find(params[:invoice_id])
+    end
+
     def set_purchase
       @purchase = Purchase.find(params[:id])
     end
